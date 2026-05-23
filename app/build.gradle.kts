@@ -25,6 +25,12 @@ dependencies {
 
     // Source: https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
     implementation("org.seleniumhq.selenium:selenium-java:4.44.0")
+
+    compileOnly("org.projectlombok:lombok:1.18.46")
+	annotationProcessor("org.projectlombok:lombok:1.18.46")
+	
+	testCompileOnly("org.projectlombok:lombok:1.18.46")
+	testAnnotationProcessor("org.projectlombok:lombok:1.18.46")
 }
 
 application {
