@@ -9,7 +9,7 @@ import vnuk_2026.pages.BookTicketPage;
 import vnuk_2026.pages.HomePage;
 import vnuk_2026.pages.LoginPage;
 
-public class BookTicketTest {
+public class BookTicketTest extends RailwayTest {
     
     HomePage homePage = new HomePage();
     LoginPage loginPage = new LoginPage();

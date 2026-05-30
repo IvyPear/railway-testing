@@ -11,7 +11,7 @@ import vnuk_2026.pages.HomePage;
 import vnuk_2026.pages.LoginPage;
 
 // @Test
-public class LoginTest {
+public class LoginTest extends RailwayTest {
 
     HomePage homePage = new HomePage();
     LoginPage loginPage = new LoginPage();
