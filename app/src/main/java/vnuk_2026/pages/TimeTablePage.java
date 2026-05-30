@@ -31,6 +31,12 @@ public class TimeTablePage {
         return LocalTime.parse(departureTimeCell.getText(), formatter);
     }
 
+    public Train getTrainByIndex(int rowIndex) {
+        Train train = new Train();
+        // Do something
+
+        return train;
+    }
 
     private List<String> getTableHeaders() {
         return WebDriverUtils.get()
@@ -39,5 +45,9 @@ public class TimeTablePage {
         .map(WebElement::getText)
         .collect(Collectors.toList());
     }
+
+}
+
+class Train {
 
 }

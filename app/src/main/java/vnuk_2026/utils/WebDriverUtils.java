@@ -13,8 +13,7 @@ public class WebDriverUtils {
         if (drivers.get() == null) {
             // if there is no driver, init ChromeDriver by default
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--guest");
-            options.addArguments("--headless=new");
+            options.addArguments("--guest","--headless=new");
             var driver = new ChromeDriver(options);
             driver.manage().window().setSize(new Dimension(1920, 1080));
             drivers.set(
