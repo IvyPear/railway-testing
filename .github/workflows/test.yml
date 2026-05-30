@@ -39,4 +39,4 @@ jobs:
         run: ./gradlew build -DautEnvironment=${{ env.AUT_VALUE }}
       
       - name: Run tests with selected AUT
-        run: ./gradlew test -DautEnvironment=${{ env.AUT_VALUE }}
+        run: ./gradlew test -DautEnvironment=${{ env.AUT_VALUE }} --info

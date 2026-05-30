@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import vnuk_2026.models.Train;
 import vnuk_2026.pages.HomePage;
 import vnuk_2026.pages.TimeTablePage;
 
@@ -38,7 +39,24 @@ public class TimeTableTest extends RailwayTest {
             timeTablePage.getDepartureTime("Đà Nẵng", "Quảng Ngãi"),
             LocalTime.of(6, 30)
         );
+    }
 
+    @Test
+    public void verifyTrainInfo() {
+        homePage.open();
+
+        homePage.navigateToTimeTablePage();
+
+        Train secondTrain = timeTablePage.getTrainByIndex(2);
+
+        Train expectedTrain = Train.builder()
+        .from("Sài Gòn")
+        .to("Nha Trang")
+        .departTime(LocalTime.of(6, 0))
+        .arriveTime(LocalTime.of(14, 0))
+        .build();
+
+        Assert.assertEquals(secondTrain, expectedTrain);
     }
 
 }

@@ -39,7 +39,7 @@ public class TimeTablePage {
         var headers = getTableHeaders();
 
         WebElement row = WebDriverUtils.get()
-        .findElements(tableHeadersBy)
+        .findElements(tableRowBy)
         .get(rowIndex - 1); // 0-based index
 
         List<WebElement> cells = row.findElements(By.tagName("td"));
