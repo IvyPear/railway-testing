@@ -29,6 +29,10 @@ public class HomePage {
         WebDriverUtils.get().findElement(bookTicketMenuBy).click();
     }
 
+    public void navigateToTimeTablePage() {
+        WebDriverUtils.get().findElement(By.linkText("Timetable")).click();
+    }
+
     public String getGreetingText() {
         return WebDriverUtils.get().findElement(greetingLblBy).getText();
     }

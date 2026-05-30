@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.Select;
 
 import vnuk_2026.models.BookTicketForm;
@@ -57,6 +58,9 @@ public class BookTicketPage {
     }
 
     public void clickBookTicketButton() {
+        // Scroll to end
+        JavascriptExecutor js = (JavascriptExecutor) WebDriverUtils.get();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
         WebDriverUtils.get().findElement(bookTicketBtnBy).click();
     }
 
