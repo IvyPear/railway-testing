@@ -18,16 +18,18 @@ public class BookTicketTest extends RailwayTest {
             .departFrom("Đà Nẵng")
             .arriveTo("Nha Trang")
             .seatType(BookTicketForm.SeatType.HARD_BED)
-            .amount(1)
+            .amount(5)
             .build();
 
     @Test
     public void tc002_verifyTicketBookingConfirmationDetails() {
         homePage.open();
         homePage.navigateToLoginPage();
-        loginPage.login("example1@udn.vn", "111111111");
+        
+        loginPage.login("example1@udn.vn", "123456789");
 
         homePage.navigateToBookTicketPage();
+        
         bookTicketPage.bookTicket(sampleTicket);
 
         Assert.assertEquals(bookTicketPage.getSuccessMessageText(), "Ticket Booked Successfully!");
@@ -44,9 +46,19 @@ public class BookTicketTest extends RailwayTest {
         loginPage.login("example1@udn.vn", "111111111");
 
         homePage.navigateToTimeTablePage();
-        timeTablePage.clickBookTicketForRoute("Đà Nẵng", "Nha Trang");
+        
+       
+        timeTablePage.clickBookTicketForRoute("Đà Nẵng", "Sài Gòn");
 
         Assert.assertEquals(bookTicketPage.getSelectedDepartStation(), "Đà Nẵng");
-        Assert.assertEquals(bookTicketPage.getSelectedArriveStation(), "Nha Trang");
+        Assert.assertEquals(bookTicketPage.getSelectedArriveStation(), "Sài Gòn");
+
+        bookTicketPage.selectDepartDate(sampleTicket.getDeparDate());
+        bookTicketPage.selectSeatType(sampleTicket.getSeatType());
+        bookTicketPage.selectTicketAmount(sampleTicket.getAmount());
+        
+        bookTicketPage.clickBookTicketButton();
+
+        Assert.assertEquals(bookTicketPage.getSuccessMessageText(), "Ticket Booked Successfully!");
     }
 }
