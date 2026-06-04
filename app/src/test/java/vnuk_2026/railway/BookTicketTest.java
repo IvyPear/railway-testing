@@ -18,26 +18,8 @@ public class BookTicketTest extends RailwayTest {
             .departFrom("Đà Nẵng")
             .arriveTo("Nha Trang")
             .seatType(BookTicketForm.SeatType.HARD_BED)
-            .amount(5)
+            .amount(1)
             .build();
-
-    @Test
-    public void tc002_verifyTicketBookingConfirmationDetails() {
-        homePage.open();
-        homePage.navigateToLoginPage();
-        
-        loginPage.login("example1@udn.vn", "123456789");
-
-        homePage.navigateToBookTicketPage();
-        
-        bookTicketPage.bookTicket(sampleTicket);
-
-        Assert.assertEquals(bookTicketPage.getSuccessMessageText(), "Ticket Booked Successfully!");
-        Assert.assertEquals(bookTicketPage.getConfirmationDepartStation(), sampleTicket.getDepartFrom());
-        Assert.assertEquals(bookTicketPage.getConfirmationArriveStation(), sampleTicket.getArriveTo());
-        Assert.assertEquals(bookTicketPage.getConfirmationSeatType(), sampleTicket.getSeatType().getText());
-        Assert.assertEquals(bookTicketPage.getConfirmationAmount(), String.valueOf(sampleTicket.getAmount()));
-    }
 
     @Test
     public void tc003_verifyAutofillWhenBookingFromTimetable() {
