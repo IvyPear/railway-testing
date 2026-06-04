@@ -1,0 +1,76 @@
+package vnuk_2026.pages;
+
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import vnuk_2026.utils.WebDriverUtils;
+
+public class RegisterPage {
+
+    // 1. Khai báo locator cho các ô nhập liệu
+    private final By emailTxtBy = By.id("email");
+    private final By passwordTxtBy = By.id("password");
+    private final By confirmPasswordTxtBy = By.id("confirmPassword");
+    private final By pidTxtBy = By.id("pid");
+    
+    // 2. Nút bấm Register
+    private final By registerBtnBy = By.xpath("//input[@value='Register'] | //input[@type='submit']");
+    
+    // 3. Locator bắt lỗi tổng quát (Ví dụ: Email đã tồn tại)
+    private final By errorMessageBy = By.cssSelector("p.message.error");
+    
+    // 4. Locator bắt lỗi validation chữ đỏ nằm dưới ô Email 
+    private final By emailValidationErrorBy = By.cssSelector("label[for='email'].validation-error");
+
+    // 5. Locator bắt lỗi validation chữ đỏ nằm dưới ô Password
+    private final By passwordValidationErrorBy = By.cssSelector("label[for='password'].validation-error");
+
+    // 6. Locator bắt lỗi validation chữ đỏ nằm dưới ô Confirm Password
+    private final By confirmPasswordValidationErrorBy = By.cssSelector("label[for='confirmPassword'].validation-error");
+
+    // 7. BỔ SUNG: Locator bắt lỗi validation chữ đỏ nằm dưới ô PID (Độ dài không hợp lệ)
+    private final By pidValidationErrorBy = By.cssSelector("label[for='pid'].validation-error");
+
+
+    // Hàm thực hiện điền form và bấm Đăng ký
+    public void register(String email, String password, String confirmPassword, String pid) {
+        WebDriverUtils.get().findElement(emailTxtBy).sendKeys(email);
+        WebDriverUtils.get().findElement(passwordTxtBy).sendKeys(password);
+        WebDriverUtils.get().findElement(confirmPasswordTxtBy).sendKeys(confirmPassword);
+        WebDriverUtils.get().findElement(pidTxtBy).sendKeys(pid);
+
+        // Dùng JS click để tránh bị Footer che khuất nút bấm
+        WebElement registerBtn = WebDriverUtils.get().findElement(registerBtnBy);
+        JavascriptExecutor js = (JavascriptExecutor) WebDriverUtils.get();
+        js.executeScript("arguments[0].click();", registerBtn);
+    }
+
+    public String getErrorMessage() {
+        WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageBy)).getText().trim();
+    }
+
+    public String getEmailValidationError() {
+        WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(emailValidationErrorBy)).getText().trim();
+    }
+
+    public String getPasswordValidationError() {
+        WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(passwordValidationErrorBy)).getText().trim();
+    }
+
+    public String getConfirmPasswordValidationError() {
+        WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(confirmPasswordValidationErrorBy)).getText().trim();
+    }
+
+    // BỔ SUNG: Hàm lấy thông báo lỗi PID không hợp lệ
+    public String getPidValidationError() {
+        WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(pidValidationErrorBy)).getText().trim();
+    }
+}

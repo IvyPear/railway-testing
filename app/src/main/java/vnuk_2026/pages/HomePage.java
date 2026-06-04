@@ -16,6 +16,7 @@ public class HomePage {
     private final By changePasswordMenuBy = By.linkText("Change password");
     private final By greetingLblBy = By.cssSelector("div.account strong");
     private final By logoutMenuBy = By.linkText("Log out");
+    private final By registerMenuBy = By.linkText("Register");
 
     public void open() {
         String aut = System.getProperty("autEnvironment", "B2").toLowerCase();
@@ -65,5 +66,8 @@ public class HomePage {
 
     public void logout() {
         WebDriverUtils.get().findElement(logoutMenuBy).click();
+    }
+    public void navigateToRegisterPage() {
+    WebDriverUtils.get().findElement(registerMenuBy).click();
     }
 }
