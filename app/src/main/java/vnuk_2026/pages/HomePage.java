@@ -12,6 +12,7 @@ public class HomePage {
     private final By bookTicketMenuBy = By.linkText("Book ticket");
     private final By timetableMenuBy = By.linkText("Timetable");
     private final By myTicketMenuBy = By.linkText("My ticket");
+    private final By ticketPriceMenuBy = By.linkText("Ticket price");
     private final By changePasswordMenuBy = By.linkText("Change password");
     private final By greetingLblBy = By.cssSelector("div.account strong");
     private final By logoutMenuBy = By.linkText("Log out");
@@ -38,6 +39,10 @@ public class HomePage {
         WebDriverUtils.get().findElement(myTicketMenuBy).click();
     }
 
+    public void navigateToTicketPricePage() {
+        WebDriverUtils.get().findElement(ticketPriceMenuBy).click();
+    }
+
     public void navigateToChangePasswordPage() {
         WebDriverUtils.get().findElement(changePasswordMenuBy).click();
     }
@@ -46,10 +51,10 @@ public class HomePage {
         try {
             // Khởi tạo WebDriverWait với thời gian chờ tối đa 10 giây
             WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
-            
+
             // Chờ cho đến khi element lời chào xuất hiện (Visible) trên màn hình
             wait.until(ExpectedConditions.visibilityOfElementLocated(greetingLblBy));
-            
+
             // Sau khi xuất hiện thì mới lấy text
             return WebDriverUtils.get().findElement(greetingLblBy).getText();
         } catch (Exception e) {
