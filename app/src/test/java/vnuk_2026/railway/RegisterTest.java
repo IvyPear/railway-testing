@@ -35,4 +35,28 @@ public class RegisterTest extends RailwayTest {
         // 5. Kiểm tra kết quả
         Assert.assertEquals(actualError, expectedError, "Lỗi: Thông báo đăng ký trùng email không chính xác!");
     }
+    @Test
+    public void tc007_verifyRegisterWithInvalidEmailFormatShowsError() {
+        // Dữ liệu đầu vào: Email sai định dạng (thiếu @)
+        String invalidEmail = "mygmail.com"; 
+        String password = "123456789";
+        String pid = "111111111";
+        
+        // Kết quả mong muốn: Lỗi validation chữ đỏ dưới ô nhập
+        String expectedError = "Invalid email address";
+
+        // 1. Mở trang chủ
+        homePage.open();
+        
+        // 2. Chuyển sang trang Đăng ký
+        homePage.navigateToRegisterPage();
+        
+        // 3. Thực hiện điền form
+        registerPage.register(invalidEmail, password, password, pid);
+        
+        // 4. Lấy câu thông báo lỗi nhỏ màu đỏ dưới ô nhập email và so sánh
+        String actualError = registerPage.getEmailValidationError();
+        Assert.assertEquals(actualError, expectedError, "Lỗi: Thông báo sai định dạng email không hiển thị chính xác!");
+    }
+
 }

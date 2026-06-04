@@ -10,17 +10,18 @@ import vnuk_2026.utils.WebDriverUtils;
 
 public class RegisterPage {
 
-    // Khai báo locator dựa trên ID của HTML
     private final By emailTxtBy = By.id("email");
     private final By passwordTxtBy = By.id("password");
     private final By confirmPasswordTxtBy = By.id("confirmPassword");
     private final By pidTxtBy = By.id("pid");
     
-    // Nút Register (Giả định dùng input type='submit' hoặc value='Register')
     private final By registerBtnBy = By.xpath("//input[@value='Register'] | //input[@type='submit']");
     
-    // Locator bắt thẻ p chứa lỗi
+    // Locator bắt lỗi tổng quát (như lỗi trùng email ở kịch bản trước)
     private final By errorMessageBy = By.cssSelector("p.message.error");
+    
+    // BỔ SUNG: Locator bắt lỗi validation chữ đỏ nằm dưới ô Email (dựa theo class và for trong HTML của bạn)
+    private final By emailValidationErrorBy = By.cssSelector("label[for='email'].validation-error");
 
     public void register(String email, String password, String confirmPassword, String pid) {
         WebDriverUtils.get().findElement(emailTxtBy).sendKeys(email);
@@ -28,7 +29,6 @@ public class RegisterPage {
         WebDriverUtils.get().findElement(confirmPasswordTxtBy).sendKeys(confirmPassword);
         WebDriverUtils.get().findElement(pidTxtBy).sendKeys(pid);
 
-        // Dùng JS click để tránh lỗi Footer che khuất như các trang trước
         WebElement registerBtn = WebDriverUtils.get().findElement(registerBtnBy);
         JavascriptExecutor js = (JavascriptExecutor) WebDriverUtils.get();
         js.executeScript("arguments[0].click();", registerBtn);
@@ -36,7 +36,12 @@ public class RegisterPage {
 
     public String getErrorMessage() {
         WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
-        // Lấy text và dùng trim() để cắt các khoảng trắng dư thừa ở đầu/cuối
         return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageBy)).getText().trim();
+    }
+
+    // BỔ SUNG: Hàm lấy thông báo lỗi định dạng của ô Email
+    public String getEmailValidationError() {
+        WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(emailValidationErrorBy)).getText().trim();
     }
 }
