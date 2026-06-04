@@ -22,11 +22,14 @@ public class RegisterPage {
     // 3. Locator bắt lỗi tổng quát (Ví dụ: Email đã tồn tại)
     private final By errorMessageBy = By.cssSelector("p.message.error");
     
-    // 4. Locator bắt lỗi validation chữ đỏ nằm dưới ô Email (Thiếu @)
+    // 4. Locator bắt lỗi validation chữ đỏ nằm dưới ô Email 
     private final By emailValidationErrorBy = By.cssSelector("label[for='email'].validation-error");
 
-    // 5. Locator bắt lỗi validation chữ đỏ nằm dưới ô Password (Độ dài không hợp lệ)
+    // 5. Locator bắt lỗi validation chữ đỏ nằm dưới ô Password
     private final By passwordValidationErrorBy = By.cssSelector("label[for='password'].validation-error");
+
+    // 6. BỔ SUNG: Locator bắt lỗi validation chữ đỏ nằm dưới ô Confirm Password (Mật khẩu không khớp)
+    private final By confirmPasswordValidationErrorBy = By.cssSelector("label[for='confirmPassword'].validation-error");
 
 
     // Hàm thực hiện điền form và bấm Đăng ký
@@ -58,5 +61,11 @@ public class RegisterPage {
     public String getPasswordValidationError() {
         WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(passwordValidationErrorBy)).getText().trim();
+    }
+
+    // BỔ SUNG: Hàm lấy thông báo lỗi Confirm Password không khớp
+    public String getConfirmPasswordValidationError() {
+        WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(confirmPasswordValidationErrorBy)).getText().trim();
     }
 }

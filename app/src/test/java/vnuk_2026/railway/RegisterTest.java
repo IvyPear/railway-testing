@@ -40,13 +40,29 @@ public class RegisterTest extends RailwayTest {
 
     @Test
     public void tc008_verifyRegisterWithInvalidPasswordLengthShowsError() {
-        // Dữ liệu đầu vào: Mật khẩu chỉ có 5 ký tự (Không hợp lệ)
         String email = "my1@gmail.com"; 
         String invalidPass = "12345";
         String pid = "123456789";
-        
-        // Kết quả mong muốn: Lỗi validation chữ đỏ dưới ô nhập Password
         String expectedError = "Invalid password length";
+
+        homePage.open();
+        homePage.navigateToRegisterPage();
+        registerPage.register(email, invalidPass, invalidPass, pid);
+        
+        Assert.assertEquals(registerPage.getPasswordValidationError(), expectedError, "Lỗi: Thông báo sai độ dài mật khẩu không hiển thị chính xác!");
+    }
+
+    // BỔ SUNG: Kịch bản test lỗi Confirm Password không khớp với Password
+    @Test
+    public void tc009_verifyRegisterWithMismatchedPasswordsShowsError() {
+        // Dữ liệu đầu vào cố tình làm sai lệch mật khẩu xác nhận
+        String email = "my1@gmail.com"; 
+        String password = "123456789";
+        String confirmPassword = "123456790"; 
+        String pid = "123456789";
+        
+        // Kết quả mong muốn: Lỗi validation chữ đỏ dưới ô Confirm Password
+        String expectedError = "The two passwords do not match";
 
         // 1. Mở trang chủ
         homePage.open();
@@ -55,10 +71,10 @@ public class RegisterTest extends RailwayTest {
         homePage.navigateToRegisterPage();
         
         // 3. Thực hiện điền form
-        registerPage.register(email, invalidPass, invalidPass, pid);
+        registerPage.register(email, password, confirmPassword, pid);
         
-        // 4. Lấy câu thông báo lỗi nhỏ màu đỏ dưới ô nhập password và so sánh
-        String actualError = registerPage.getPasswordValidationError();
-        Assert.assertEquals(actualError, expectedError, "Lỗi: Thông báo sai độ dài mật khẩu không hiển thị chính xác!");
+        // 4. Lấy câu thông báo lỗi nhỏ màu đỏ dưới ô nhập confirm password và so sánh
+        String actualError = registerPage.getConfirmPasswordValidationError();
+        Assert.assertEquals(actualError, expectedError, "Lỗi: Thông báo xác nhận mật khẩu không khớp hiển thị không chính xác!");
     }
 }
