@@ -52,17 +52,31 @@ public class RegisterTest extends RailwayTest {
         Assert.assertEquals(registerPage.getPasswordValidationError(), expectedError, "Lỗi: Thông báo sai độ dài mật khẩu không hiển thị chính xác!");
     }
 
-    // BỔ SUNG: Kịch bản test lỗi Confirm Password không khớp với Password
     @Test
     public void tc009_verifyRegisterWithMismatchedPasswordsShowsError() {
-        // Dữ liệu đầu vào cố tình làm sai lệch mật khẩu xác nhận
         String email = "my1@gmail.com"; 
         String password = "123456789";
         String confirmPassword = "123456790"; 
         String pid = "123456789";
-        
-        // Kết quả mong muốn: Lỗi validation chữ đỏ dưới ô Confirm Password
         String expectedError = "The two passwords do not match";
+
+        homePage.open();
+        homePage.navigateToRegisterPage();
+        registerPage.register(email, password, confirmPassword, pid);
+        
+        Assert.assertEquals(registerPage.getConfirmPasswordValidationError(), expectedError, "Lỗi: Thông báo xác nhận mật khẩu không khớp hiển thị không chính xác!");
+    }
+
+    // BỔ SUNG: test lỗi PID có độ dài không hợp lệ
+    @Test
+    public void tc010_verifyRegisterWithInvalidPidLengthShowsError() {
+        // Dữ liệu đầu vào cố tình làm sai độ dài PID (nhỏ hơn 8 ký tự)
+        String email = "my1@gmail.com"; 
+        String password = "123456789";
+        String invalidPid = "1234567"; // 7 ký tự
+        
+        // Kết quả mong muốn: Lỗi validation chữ đỏ dưới ô PID
+        String expectedError = "Invalid ID length";
 
         // 1. Mở trang chủ
         homePage.open();
@@ -71,10 +85,10 @@ public class RegisterTest extends RailwayTest {
         homePage.navigateToRegisterPage();
         
         // 3. Thực hiện điền form
-        registerPage.register(email, password, confirmPassword, pid);
+        registerPage.register(email, password, password, invalidPid);
         
-        // 4. Lấy câu thông báo lỗi nhỏ màu đỏ dưới ô nhập confirm password và so sánh
-        String actualError = registerPage.getConfirmPasswordValidationError();
-        Assert.assertEquals(actualError, expectedError, "Lỗi: Thông báo xác nhận mật khẩu không khớp hiển thị không chính xác!");
+        // 4. Lấy câu thông báo lỗi nhỏ màu đỏ dưới ô nhập PID và so sánh
+        String actualError = registerPage.getPidValidationError();
+        Assert.assertEquals(actualError, expectedError, "Lỗi: Thông báo sai độ dài PID không hiển thị chính xác!");
     }
 }

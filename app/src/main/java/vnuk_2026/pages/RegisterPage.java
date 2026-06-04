@@ -28,8 +28,11 @@ public class RegisterPage {
     // 5. Locator bắt lỗi validation chữ đỏ nằm dưới ô Password
     private final By passwordValidationErrorBy = By.cssSelector("label[for='password'].validation-error");
 
-    // 6. BỔ SUNG: Locator bắt lỗi validation chữ đỏ nằm dưới ô Confirm Password (Mật khẩu không khớp)
+    // 6. Locator bắt lỗi validation chữ đỏ nằm dưới ô Confirm Password
     private final By confirmPasswordValidationErrorBy = By.cssSelector("label[for='confirmPassword'].validation-error");
+
+    // 7. BỔ SUNG: Locator bắt lỗi validation chữ đỏ nằm dưới ô PID (Độ dài không hợp lệ)
+    private final By pidValidationErrorBy = By.cssSelector("label[for='pid'].validation-error");
 
 
     // Hàm thực hiện điền form và bấm Đăng ký
@@ -45,27 +48,29 @@ public class RegisterPage {
         js.executeScript("arguments[0].click();", registerBtn);
     }
 
-    // Hàm lấy thông báo lỗi tổng quát
     public String getErrorMessage() {
         WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageBy)).getText().trim();
     }
 
-    // Hàm lấy thông báo lỗi định dạng Email
     public String getEmailValidationError() {
         WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(emailValidationErrorBy)).getText().trim();
     }
 
-    // Hàm lấy thông báo lỗi độ dài Password
     public String getPasswordValidationError() {
         WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(passwordValidationErrorBy)).getText().trim();
     }
 
-    // BỔ SUNG: Hàm lấy thông báo lỗi Confirm Password không khớp
     public String getConfirmPasswordValidationError() {
         WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(confirmPasswordValidationErrorBy)).getText().trim();
+    }
+
+    // BỔ SUNG: Hàm lấy thông báo lỗi PID không hợp lệ
+    public String getPidValidationError() {
+        WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(pidValidationErrorBy)).getText().trim();
     }
 }
