@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import vnuk_2026.models.Train;
 import vnuk_2026.utils.WebDriverUtils;
@@ -38,11 +39,19 @@ public class TimeTablePage {
 
     public void clickBookTicketForRoute(String departStation, String arriveStation) {
         var headers = getTableHeaders();
+        // Lấy chính xác vị trí cột dựa trên Header của bảng
         int departStationColumnIndex = headers.indexOf("Depart Station") + 1;
         int arriveStationColumnIndex = headers.indexOf("Arrive Station") + 1;
         
+        // Tạo XPath để tìm đúng link "book ticket" trên hàng tương ứng
         By xpath = By.xpath(String.format("//tr[td[%d][text()='%s'] and td[%d][text()='%s']]/td[last()]/a", 
                 departStationColumnIndex, departStation, arriveStationColumnIndex, arriveStation));
-        WebDriverUtils.get().findElement(xpath).click();
+        
+        // Tìm phần tử link
+        WebElement bookTicketLink = WebDriverUtils.get().findElement(xpath);
+
+        // Sử dụng JavascriptExecutor để click, vượt qua thanh Footer che khuất
+        JavascriptExecutor js = (JavascriptExecutor) WebDriverUtils.get();
+        js.executeScript("arguments[0].click();", bookTicketLink);
     }
 }
