@@ -11,14 +11,14 @@ public class WebDriverUtils {
 
     public static WebDriver get() {
         if (drivers.get() == null) {
-            // if there is no driver, init ChromeDriver by default
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--guest","--headless=new");
+            
+            // Chỉ giữ lại --guest, xóa bỏ --headless=new để trình duyệt hiển thị lên màn hình
+            options.addArguments("--guest");
+            
             var driver = new ChromeDriver(options);
             driver.manage().window().setSize(new Dimension(1920, 1080));
-            drivers.set(
-                driver
-            );
+            drivers.set(driver);
         }
         return drivers.get();
     }

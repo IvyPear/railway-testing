@@ -1,7 +1,6 @@
 package vnuk_2026.models;
 
 import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,14 +21,14 @@ public class BookTicketForm {
         SOFT_SEAT_AC("Soft seat with air conditioner"),
         HARD_BED("Hard bed"),
         SOFT_BED("Soft bed"),
-        SOFT_BED_AC("Soft bed with air conditioner"),
-        ;
+        SOFT_BED_AC("Soft bed with air conditioner");
+
+        private final String text;
 
         private SeatType(String text) {
             this.text = text;
         }
 
-        private final String text;
         public String getText() {
             return text;
         }
