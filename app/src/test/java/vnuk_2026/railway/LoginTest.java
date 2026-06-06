@@ -1,9 +1,14 @@
 package vnuk_2026.railway;
 
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import vnuk_2026.pages.HomePage;
 import vnuk_2026.pages.LoginPage;
+import vnuk_2026.utils.WebDriverUtils;
 
 public class LoginTest extends RailwayTest {
 
@@ -92,5 +97,49 @@ public class LoginTest extends RailwayTest {
         // Khi đã logout thành công, hàm getGreetingText() sẽ không tìm thấy tên bạn và trả về chuỗi rỗng ""
         Assert.assertEquals(greetingTextAfterLogout, "", 
                 "LỖI: Thao tác Log out thất bại! Người dùng vẫn chưa được đăng xuất khỏi hệ thống.");
+    }
+
+    @Test
+    public void tc014_verifyLoginWithEmptyFields() {
+        System.out.println("--- Chạy TC014: Đăng nhập để trống tất cả các trường ---");
+        System.out.println("Bước 1: Truy cập trang chủ Railway");
+        homePage.open();
+
+        System.out.println("Bước 2: Di chuyển đến giao diện Đăng nhập");
+        homePage.navigateToLoginPage();
+
+        System.out.println("Bước 3: Để trống cả Username và Password rồi nhấn Đăng nhập");
+        // Truyền chuỗi rỗng "" để mô phỏng hành động không nhập gì
+        loginPage.login("", ""); 
+
+        // Khởi tạo WebDriverWait để xử lý bất đồng bộ khi thông báo lỗi render ra UI
+        WebDriverWait wait = new WebDriverWait(WebDriverUtils.get(), Duration.ofSeconds(5));
+
+        // Khai báo các bộ định vị (Locators) theo cấu trúc HTML bạn cung cấp
+        By mainErrorBy = By.cssSelector("p.message.error.LoginForm");
+        By usernameErrorBy = By.xpath("//label[@for='username' and contains(@class, 'validation-error')]");
+        By passwordErrorBy = By.xpath("//label[@for='password' and contains(@class, 'validation-error')]");
+
+        System.out.println("Bước 4: Xác thực các thông báo lỗi hiển thị chuẩn xác trên UI");
+        
+        // 1. Chờ và kiểm tra thông báo lỗi tổng của FormLoginForm
+        wait.until(ExpectedConditions.visibilityOfElementLocated(mainErrorBy));
+        String actualMainError = WebDriverUtils.get().findElement(mainErrorBy).getText().trim();
+        String expectedMainError = "There was a problem with your login and/or errors exist in your form.";
+        Assert.assertEquals(actualMainError, expectedMainError, "LỖI: Thông báo lỗi tổng của Form hiển thị sai!");
+
+        // 2. Chờ và kiểm tra thông báo lỗi riêng của ô Username
+        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameErrorBy));
+        String actualUsernameError = WebDriverUtils.get().findElement(usernameErrorBy).getText().trim();
+        String expectedUsernameError = "You must specify a username.";
+        Assert.assertEquals(actualUsernameError, expectedUsernameError, "LỖI: Thông báo lỗi để trống Username hiển thị sai!");
+
+        // 3. Chờ và kiểm tra thông báo lỗi riêng của ô Password
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordErrorBy));
+        String actualPasswordError = WebDriverUtils.get().findElement(passwordErrorBy).getText().trim();
+        String expectedPasswordError = "You must specify a password.";
+        Assert.assertEquals(actualPasswordError, expectedPasswordError, "LỖI: Thông báo lỗi để trống Password hiển thị sai!");
+        
+        System.out.println("Kết quả: TC014 Pass - Hệ thống hiển thị đầy đủ và chính xác cả 3 thông báo lỗi.");
     }
 }
